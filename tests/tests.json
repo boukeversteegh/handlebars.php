@@ -1,0 +1,123 @@
+{
+	"variables": [
+		{
+			"title": "Basic variable substitution",
+			"data": {
+				"title": "Welcome to example.com"
+			},
+			"template": "<h1>{{title}}</h1>",
+			"output":	"<h1>Welcome to example.com</h1>"
+		},
+		{
+			"title": "Accessing deeper variables using dot",
+			"data": {
+				"meta": {
+					"id": 10,
+					"type": "Car",
+					"color": "red"
+				}
+			},
+			"template": "Product info: [id={{meta.id}}, type={{meta.type}}, color={{meta.color}}]",
+			"output":	"Product info: [id=10, type=Car, color=red]"
+		},
+		{
+			"title": "List items can be accessed as properties",
+			"data": {
+				"list": ["first", "second", "third"]
+			},
+			"template": "{{list.0}}, {{list.1}}, {{list.2}}",
+			"output":	"first, second, third"
+		}
+	],
+	"sections": [
+		{
+			"title": "Iteration over list of strings: {{this}}",
+			"description": "{{this}} returns the value of the current item in the list",
+			"data": {
+				"tags": ["news", "technology", "internet"]
+			},
+			"template":	"<ul>{{#tags}}<li>{{this}}</li>{{/tags}}</ul>",
+			"output":	"<ul><li>news</li><li>technology</li><li>internet</li></ul>"
+		},
+		{
+			"title": "Iteration over list with @index",
+			"description": "{{@index}} returns index of item in list.",
+			"data": {
+				"alphabet": ["a","b","c","d"]
+			},
+			"template": "{{#alphabet}}({{@index}}={{this}}){{/alphabet}}",
+			"output":	"(0=a)(1=b)(2=c)(3=d)"
+		},
+		{
+			"title": "Iteration over nested lists using {{#this}}",
+			"description": "Two-dimensional lists can be iterated.",
+			"data": {
+				"rows": [
+					["a","b","c"],
+					["d","e","f"]
+				]
+			},
+			"template": "[ {{#rows}}[ {{#this}}{{this}} {{/this}}] {{/rows}}]",
+			"output":	"[ [ a b c ] [d e f] ]"
+		},
+		{
+			"title": "Iteration over nested lists with @index",
+			"description": "{{@index}} returns index of item in list at current level.",
+			"data": {
+				"rows": [
+					["a","b","c"],
+					["d","e","f"]
+				]
+			},
+			"template": "{{#rows}}Row {{@index}}: {{#this}}{{@index}}:{{this}}; {{/this}}\n{{/rows}}",
+			"output":	"Row 0: 0:a; 1:b; 2:c;\nRow 1: 0:d; 1:e; 2:f;\n"
+		},
+		{
+			"title": "Parent scope is not accessible within sections",
+			"description": "{{varname}}",
+			"data": {
+				"category": "person",
+				"persons": [
+					{"name": "John", "url": "john"},
+					{"name": "Jack", "url": "jack"}
+				]
+			},
+			"template": "{{#persons}}{{name}} ({{category}}); {{/persons}}",
+			"output":	"John (); Jack (); "
+		},
+		{
+			"title": "Parent variables can be accessed from section using ..",
+			"description": "{{../varname}}",
+			"data": {
+				"url": "persons",
+				"persons": [
+					{"name": "John", "url": "john"},
+					{"name": "Jack", "url": "jack"}
+				]
+			},
+			"template": "{{#persons}}<a href=\"{{../url}}/{{url}}\">{{name}}</a>{{/persons}}",
+			"output":	"<a href=\"persons/john\">John</a><a href=\"persons/jack\">Jack</a>"
+		}
+	],
+	"each": [
+		{
+			"title": "Iteration over list of objects",
+			"data": {
+				"persons": [
+					{"name": "John", "surname": "Doe"},
+					{"name": "Jack", "surname": "Dough"}
+				]
+			},
+			"template":	"Persons:\n{{#each persons}}- {{name}} {{surname}}\n{{/each}}",
+			"output":	"Persons:\n- John Doe\n- Jack Dough\n"
+		},
+		{
+			"title": "Iteration over list of strings",
+			"data": {
+				"tags": ["news", "technology", "internet"]
+			},
+			"template": "<ul>{{#each tags}}<li>{{this}}</li>{{/each}}</ul>",
+			"output": "<ul><li>news</li><li>technology</li><li>internet</li></ul>"
+		}
+	]
+}

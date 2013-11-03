@@ -1,0 +1,68 @@
+<html>
+<head>
+	<title>Handlebars.js Test Suite</title>
+	<style>
+		body {
+			font-family:	sans-serif;
+		}
+		td {
+			vertical-align:	top;
+			padding:		0.3em;
+		}
+		table {
+			border-spacing: 4px 0;
+		}
+		tr.bottom td,
+		tr.top .result {
+			border-bottom: 2px solid black;
+		}
+		.code {
+			background:		#EEE;
+			font-family:	monospace;
+			white-space:	pre;
+		}
+		.top .code {
+			border-bottom:			thin dashed gray;
+		}
+		.code.data {
+			white-space:	pre-wrap;
+		}
+		.code.template {
+			background:		#CCE;
+		}
+		.success {
+			background:		#AFA;
+		}
+		.title {
+			font-weight:	600;
+		}
+		.fail {
+			background:		#FAA;
+		}
+		.result {
+			text-align:		center;
+		}
+	</style>
+</head>
+<body>
+	<a href="?">All</a>
+	{{#categories}}
+	- <a href="?filter={{name}}">{{name}}</a>
+	{{/categories}}
+	<hr/>
+	<table>
+	{{#categories}}{{#if tests}}<tr><td colspan="4"><h2>{{name}}</h2></td></tr>
+	<tr><th>description</th><th>Data and Template</th><th>Expected vs. Actual result</th></tr>
+	{{#tests}}	<tr class="top {{#if result.success}}success{{else}}fail{{/if}}">
+			<td class="title">{{title}}</td>
+			<td class="code data">{{#json_encode data}}{{/json_encode}}</td>
+			<td class="code output">{{output}}</td>
+		</tr>
+		<tr class="bottom {{#if result.success}}success{{else}}fail{{/if}}">
+			<td class="description">{{description}}</td>
+			<td class="code template">{{template}}</td>
+			<td class="code result-output">{{result.output}}</td>
+	</tr>
+	{{/tests}}{{/if}}{{/categories}}</table>
+</body>
+</html>
